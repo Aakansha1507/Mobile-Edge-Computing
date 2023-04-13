@@ -1,0 +1,20 @@
+function cal_gain=gain_cal(source, destination,alpha,pl_const,bandwidth)
+dist=abs(source-destination);
+%path_loss=-(10*alpha*log10(dist/1000)+ 22.7 + 26*log10(bandwidth));
+path_loss=(dist)^(-alpha);
+lam=1;
+fast_fading=-(1/lam)*log(1-rand); % Multipath fading
+std=8;
+    mu=1;
+   sx=sqrt(log(std^2/mu^2+1));
+   mx=log(mu)-sx^2/2;
+   slow_fading=exp(mx+sx*randn);  
+   std=8;
+    mu=1;
+   sx=sqrt(log(std^2/mu^2+1));
+   mx=log(mu)-sx^2/2;
+   slow_fading=exp(mx+sx*randn);  
+   %gain = (10*log10(pl_const))+path_loss+fast_fading+slow_fading;
+   %cal_gain=10.^(gain/10);
+   cal_gain=pl_const*fast_fading*slow_fading*path_loss;
+end
